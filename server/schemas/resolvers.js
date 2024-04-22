@@ -1,10 +1,13 @@
 const { User } = require("../models");
-const { signToken } = require("../utils/auth");
+const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
     Query: {
-        user: async(parent, { username }) => {
-
+        user: async(parent, args, context) => {
+            if (context.user) {
+                return User.findOne({ _id: context.user._id }).populate("savedBooks");
+            }
+            throw AuthenticationError;
         }
     },
 
@@ -25,4 +28,3 @@ const resolvers = {
 }
 
 module.exports = resolvers;
-  
