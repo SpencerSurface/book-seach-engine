@@ -34,7 +34,7 @@ const SignupForm = () => {
 
     try {
       // add the user
-      const {data} = await addUser(userFormData);
+      await addUser(userFormData);
     } catch (err) {
       console.error(err);
       setShowAlert(true);
