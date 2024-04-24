@@ -32,14 +32,16 @@ const LoginForm = () => {
 
     try {
       // log in the user
-      await loginUser(userFormData);
+      const { data } = await loginUser({ variables: { ...userFormData }});
+
+      // log in
+      Auth.login(data.login.token);
     } catch (err) {
       console.error(err);
       setShowAlert(true);
     }
 
     setUserFormData({
-      username: '',
       email: '',
       password: '',
     });
