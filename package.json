@@ -8,7 +8,8 @@
     "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm run dev\"",
     "install": "cd server && npm i && cd ../client && npm i",
     "build": "cd client && npm run build",
-    "render-build":"npm install && npm run build"
+    "render-build":"npm install && npm run build",
+    "clean": "rm package-lock.json && rm client/package-lock.json && rm server/package-lock.json && rm -r node_modules && rm -r client/node_modules && rm -r server/node_modules && rm -r client/dist"
   },
   "keywords": [],
   "author": "",
