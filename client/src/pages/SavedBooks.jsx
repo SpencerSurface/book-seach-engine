@@ -14,12 +14,12 @@ import { GET_ME } from "../utils/queries";
 import { REMOVE_BOOK } from '../utils/mutations';
 
 const SavedBooks = () => {
-  // use this to determine if `useEffect()` hook needs to run again
-  const userDataLength = Object.keys(userData).length;
-
   // get the user's data
   const { data } = useQuery(GET_ME);
-  const userData = data?.user || [];
+  const userData = data?.me || [];
+
+  // use this to determine if `useEffect()` hook needs to run again
+  const userDataLength = Object.keys(userData).length;
 
   // allow the user to delete a book
   const [deleteBook, { error }] = useMutation(REMOVE_BOOK);
@@ -33,7 +33,7 @@ const SavedBooks = () => {
     }
 
     try {
-      await deleteBook(bookId, token);
+      await deleteBook({ variables: { bookId, token } });
 
       // upon success, remove book's id from localStorage
       removeBookId(bookId);
@@ -63,7 +63,7 @@ const SavedBooks = () => {
         <Row>
           {userData.savedBooks.map((book) => {
             return (
-              <Col md="4">
+              <Col key={book.bookId} md="4">
                 <Card key={book.bookId} border='dark'>
                   {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' /> : null}
                   <Card.Body>
